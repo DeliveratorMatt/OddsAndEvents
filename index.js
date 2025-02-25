@@ -1,8 +1,8 @@
 // ===State===
 
 const bank = [10, 11, 12, 13, 14, 15];
-const odds = [27, 31, 47];
 const evens = [22, 92];
+const odds = [27, 31, 47];
 
 function addToBank(n) {
   if (typeof n !== "number") return;
@@ -70,7 +70,17 @@ function Numbers(numbers) {
   return $numbers;
 }
 
-//function NumberList
+function NumberList(title, numbers) {
+  const $section = document.createElement("section");
+
+  $section.innerHTML = `
+  <h2>${title}</h2>
+  <Numbers></Numbers>
+  `;
+  $section.querySelector("Numbers").replaceWith(Numbers(numbers));
+
+  return $section;
+}
 
 // ===Render===
 function render() {
@@ -78,9 +88,15 @@ function render() {
   $app.innerHTML = `
   <h1>Odds and Events</h1>
   <EnterNumbers></EnterNumbers>
+  <NumberList id="bank"></NumberList>
+  <NumberList id="evens"></NumberList>
+  <NumberList id="odds"></NumberList>
   `;
 
   $app.querySelector("EnterNumbers").replaceWith(EnterNumbers());
+  $app.querySelector("NumberList").replaceWith(NumberList("Bank", bank));
+  $app.querySelector("NumberList").replaceWith(NumberList("Evens", evens));
+  $app.querySelector("NumberList").replaceWith(NumberList("Odds", odds));
 }
 
 render();
