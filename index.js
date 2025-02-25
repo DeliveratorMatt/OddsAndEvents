@@ -1,8 +1,8 @@
 // ===State===
 
-const bank = [];
-const odds = [];
-const evens = [];
+const bank = [10, 11, 12, 13, 14, 15];
+const odds = [27, 31, 47];
+const evens = [22, 92];
 
 function addToBank(n) {
   if (typeof n !== "number") return;
@@ -27,9 +27,9 @@ function EnterNumbers() {
 
   $form.innerHTML = `
     <label>Enter a number to be added to the bank:
-    <input name="newNumber" type="number" />
+    <input name="number" type="number" />
     </label>
-    <button id="add">Add Number</button>
+    <button id="add" type="button">Add Number</button>
     <button id="sort1">Sort One Number</button>
     <button id="sortAll">Sort All Numbers</button>
     `;
@@ -38,7 +38,7 @@ function EnterNumbers() {
   $add.addEventListener("click", () => {
     const data = new FormData($form);
     const number = data.get("number");
-    addToBank(number);
+    addToBank(Number(number));
   });
 
   const $sort1 = $form.querySelector("#sort1");
@@ -46,22 +46,28 @@ function EnterNumbers() {
 
   const $sortAll = $form.querySelector("#sortAll");
 
-  const bankLen = bank.length;
   $sortAll.addEventListener("click", () => {
-    for (let i = 0; i < bankLen; i++) {
+    while (bank.length > 0) {
       sortNumFromBank();
     }
   });
+
+  return $form;
 }
 
 function Numbers(numbers) {
   const $numbers = document.createElement("p");
   $numbers.classList.add("numbers");
-  const $numberSpans = numbers.map((number) => {
+  const $numberSpans = [];
+  for (const number of numbers) {
     const $number = document.createElement("span");
     $number.textContent = number;
-    return $number;
-  });
+    $numberSpans.push($number);
+  }
+
+  $numbers.replaceChildren(...$numberSpans);
+
+  return $numbers;
 }
 
 //function NumberList
@@ -73,4 +79,8 @@ function render() {
   <h1>Odds and Events</h1>
   <EnterNumbers></EnterNumbers>
   `;
+
+  $app.querySelector("EnterNumbers").replaceWith(EnterNumbers());
 }
+
+render();
